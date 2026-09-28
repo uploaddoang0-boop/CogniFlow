@@ -13,20 +13,17 @@ class CogniFlowEngine {
 
         this.state = { mode: null, subType: null, questionPool: [], usedQuestionIds: new Set(), currentQuestion: null, targetDifficulty: 2, questionStartTime: 0, questionsAnswered: 0, maxQuestions: 5, correctAnswers: 0, sessionTimeLeft: 900, timerInterval: null, sessionHistory: [] };
         
-        // Pemisahan Statisitk Berdasarkan Tipe Logika
         this.userStats = { streakDays: 0, lastPlayedDate: null, series: { correct: 0, answered: 0, time: 0 }, syllogism: { correct: 0, answered: 0, time: 0 } };
-        
-        this.audioCtx = null; // Diinisiasi saat interaksi pertama (kebijakan browser)
+        this.audioCtx = null;
     }
 
     init() { 
         this.loadLocalStorage(); 
         this.updateDashboardUI(); 
         this.attachEventListeners(); 
-        console.log("CogniFlow Engine v3.0 [4-TXT Parser & Audio] Ready.");
+        console.log("CogniFlow Engine v3.1 [Router Fixed] Ready.");
     }
 
-    // --- MANAJEMEN PENYIMPANAN ---
     loadLocalStorage() { const saved = localStorage.getItem('cogniflow_stats_v2'); if (saved) { this.userStats = JSON.parse(saved); } else { this.saveLocalStorage(); } }
     saveLocalStorage() { localStorage.setItem('cogniflow_stats_v2', JSON.stringify(this.userStats)); }
 
@@ -48,7 +45,6 @@ class CogniFlowEngine {
         this.DOM.stats.sylAcc.textContent = `${sylAcc}%`;
         this.DOM.stats.sylTime.textContent = `${sylTime}s`;
 
-        // Kartu Diagnostik
         if (s.answered > 0 || syl.answered > 0) {
             if (syl.answered > 0 && (sylAcc < deretAcc || s.answered === 0)) {
                 this.DOM.stats.diagText.innerHTML = `Akurasi Silogisme Anda (${sylAcc}%) perlu ditingkatkan. Disarankan mengulang <strong>Latihan Silogisme</strong>.`;
@@ -72,61 +68,56 @@ class CogniFlowEngine {
         }
     }
 
-    // --- SISTEM AUDIO FEEDBACK & HAPTIK ---
     initAudio() { if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if (this.audioCtx.state === 'suspended') this.audioCtx.resume(); }
     
     playFeedback(isCorrect) {
-        this.initAudio();
-        const t = this.audioCtx.currentTime;
-        const osc = this.audioCtx.createOscillator();
-        const gain = this.audioCtx.createGain();
-        osc.connect(gain); gain.connect(this.audioCtx.destination);
-        
-        if (isCorrect) {
-            const osc2 = this.audioCtx.createOscillator();
-            osc2.connect(gain);
-            osc.type = 'sine'; osc2.type = 'sine';
-            osc.frequency.setValueAtTime(587.33, t); // Nada D5
-            osc2.frequency.setValueAtTime(880.00, t); // Nada A5
-            gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-            osc.start(t); osc2.start(t); osc.stop(t + 0.5); osc2.stop(t + 0.5);
-            if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
-        } else {
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, t);
-            gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
-            osc.start(t); osc.stop(t + 0.4);
-            if (navigator.vibrate) navigator.vibrate(200);
-        }
+        try {
+            this.initAudio();
+            const t = this.audioCtx.currentTime;
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.connect(gain); gain.connect(this.audioCtx.destination);
+            
+            if (isCorrect) {
+                const osc2 = this.audioCtx.createOscillator(); osc2.connect(gain);
+                osc.type = 'sine'; osc2.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, t); osc2.frequency.setValueAtTime(880.00, t); 
+                gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+                osc.start(t); osc2.start(t); osc.stop(t + 0.5); osc2.stop(t + 0.5);
+                if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+            } else {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, t);
+                gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+                osc.start(t); osc.stop(t + 0.4);
+                if (navigator.vibrate) navigator.vibrate(200);
+            }
+        } catch(e) { console.warn("Audio/Haptic not supported or blocked"); }
     }
 
-    // --- TAB ROUTER ---
+    // --- PERBAIKAN ROUTER (BUG FIX) ---
     switchTab(tabId) {
         Object.values(this.DOM.navItems).forEach(item => item.classList.remove('active'));
         if (this.DOM.navItems[tabId]) this.DOM.navItems[tabId].classList.add('active');
-        this.navigate(`screen-${tabId === 'home' ? 'home' : tabId}`);
+        this.navigate(tabId); // Perbaikan: menggunakan bare key
     }
 
     navigate(screenId) {
         Object.values(this.DOM.screens).forEach(screen => { if (screen) screen.classList.remove('active'); });
         if(this.DOM.screens[screenId]) this.DOM.screens[screenId].classList.add('active');
-        this.DOM.mainNav.style.display = (screenId === 'screen-quiz' || screenId === 'screen-result') ? 'none' : 'flex';
+        this.DOM.mainNav.style.display = (screenId === 'quiz' || screenId === 'result') ? 'none' : 'flex';
     }
 
     attachEventListeners() {
-        // Tab Navigasi Bawah
         this.DOM.navItems.home.addEventListener('click', () => this.switchTab('home'));
         this.DOM.navItems.simulasi.addEventListener('click', () => this.switchTab('simulasi'));
         this.DOM.navItems.practice.addEventListener('click', () => this.switchTab('practice'));
 
-        // Trigger Sesi Ujian / Latihan
         this.DOM.buttons.startDaily.addEventListener('click', () => this.startSession('assessment', 'mix'));
         this.DOM.buttons.testSeries.addEventListener('click', () => this.startSession('assessment', 'series'));
         this.DOM.buttons.testSyl.addEventListener('click', () => this.startSession('assessment', 'syllogism'));
         this.DOM.buttons.pracSeries.addEventListener('click', () => this.startSession('practice', 'series'));
         this.DOM.buttons.pracSyl.addEventListener('click', () => this.startSession('practice', 'syllogism'));
         
-        // Modal Exit & Kembali
         this.DOM.buttons.exitQuiz.addEventListener('click', () => this.DOM.modal.exit.style.display = 'flex');
         this.DOM.buttons.cancelExit.addEventListener('click', () => this.DOM.modal.exit.style.display = 'none');
         this.DOM.buttons.confirmExit.addEventListener('click', () => {
@@ -134,7 +125,6 @@ class CogniFlowEngine {
         });
         this.DOM.buttons.home.addEventListener('click', () => { this.updateDashboardUI(); this.switchTab('home'); });
         
-        // Navigasi Kuis
         this.DOM.buttons.nextPractice.addEventListener('click', () => { 
             this.DOM.quiz.explanationContainer.style.display = 'none'; 
             this.prepareNextQuestion(); 
@@ -146,7 +136,7 @@ class CogniFlowEngine {
         
         let db = window.globalQuestionDatabase || [];
         if (db.length === 0) {
-            alert("⚠️ SAFE MODE: File TXT tidak terdeteksi. Menggunakan Data Cadangan.");
+            alert("⚠️ SAFE MODE: File TXT gagal dimuat. Menggunakan Data Cadangan.");
             db = getSafeModeData();
         }
 
@@ -155,7 +145,7 @@ class CogniFlowEngine {
         
         this.state.usedQuestionIds.clear(); this.state.questionsAnswered = 0; this.state.correctAnswers = 0;
         this.state.targetDifficulty = 2; this.state.maxQuestions = (mode === 'assessment') ? 5 : 3; 
-        this.state.sessionHistory = []; // Reset Riwayat Review
+        this.state.sessionHistory = []; 
         
         if (mode === 'assessment') { 
             this.DOM.quiz.timerDisplay.textContent = '15:00';
@@ -164,7 +154,8 @@ class CogniFlowEngine {
             this.DOM.quiz.timerDisplay.textContent = '∞';
         }
 
-        this.navigate('screen-quiz'); this.prepareNextQuestion();
+        this.navigate('quiz'); // Perbaikan: menggunakan bare key
+        this.prepareNextQuestion();
     }
 
     prepareNextQuestion() {
@@ -201,9 +192,8 @@ class CogniFlowEngine {
         const isCorrect = (selectedOpt.trim() === q.correctAnswer.trim());
         const timeTaken = (Date.now() - this.state.questionStartTime) / 1000;
         
-        this.playFeedback(isCorrect); // Web Audio + Haptic Trigger
+        this.playFeedback(isCorrect); 
 
-        // Matikan semua tombol
         const allBtns = this.DOM.quiz.optionsContainer.querySelectorAll('button');
         allBtns.forEach(btn => btn.disabled = true);
         
@@ -214,30 +204,25 @@ class CogniFlowEngine {
         if (isCorrect) this.state.correctAnswers++;
         this.state.questionsAnswered++;
         
-        // Simpan Statistik Terpisah (Deret atau Silogisme)
         const typeStat = q.type === 'series' ? this.userStats.series : this.userStats.syllogism;
         typeStat.answered++;
         if (isCorrect) typeStat.correct++;
         typeStat.time += timeTaken;
 
-        // Simpan Log Sesi untuk Evaluasi (Khusus Simulasi)
         if (this.state.mode === 'assessment') {
             this.state.sessionHistory.push({ questionType: q.type, content: q.content, selected: selectedOpt, isCorrect: isCorrect, correctAns: q.correctAnswer, exp: q.explanation.text });
-            
-            // Adaptive Logic (Continuous Flow)
             if (isCorrect && timeTaken < 20) this.state.targetDifficulty = Math.min(this.state.targetDifficulty + 1, 5);
             else if (!isCorrect) this.state.targetDifficulty = Math.max(this.state.targetDifficulty - 1, 1);
             
             setTimeout(() => this.prepareNextQuestion(), 600);
         } else {
-            // Latihan (Tampilkan Pembahasan Langsung)
             this.DOM.quiz.explanationText.textContent = q.explanation.text;
             this.DOM.quiz.explanationContainer.style.display = 'block';
         }
     }
 
     startTimer() {
-        clearInterval(this.state.timerInterval); this.state.sessionTimeLeft = 900; // 15 Menit
+        clearInterval(this.state.timerInterval); this.state.sessionTimeLeft = 900;
         this.state.timerInterval = setInterval(() => {
             this.state.sessionTimeLeft--; 
             const m = Math.floor(this.state.sessionTimeLeft / 60).toString().padStart(2, '0');
@@ -259,7 +244,6 @@ class CogniFlowEngine {
             <span style="font-size: 0.9rem; color: var(--text-muted);">Benar ${this.state.correctAnswers} dari total ${this.state.questionsAnswered} soal.</span>
         `;
         
-        // Render Review Pembahasan di Akhir (Khusus Mode Simulasi)
         if (this.state.mode === 'assessment' && this.state.sessionHistory.length > 0) {
             this.DOM.result.reviewContainer.style.display = 'block';
             this.DOM.result.reviewList.innerHTML = this.state.sessionHistory.map((h, i) => `
@@ -273,13 +257,10 @@ class CogniFlowEngine {
             this.DOM.result.reviewContainer.style.display = 'none';
         }
 
-        this.navigate('screen-result');
+        this.navigate('result'); // Perbaikan: menggunakan bare key
     }
 }
 
-/* =========================================================
-   ASYNCHRONOUS 4-TXT PARSER ENGINE (PROMISE.ALL)
-   ========================================================= */
 async function buildDatabaseFromTXT() {
     window.globalQuestionDatabase = [];
     const dbConfigs = [
@@ -323,8 +304,8 @@ async function buildDatabaseFromTXT() {
 
             const questionObj = {
                 id: extractField('ID') || Math.random().toString(),
-                type: config.type,          // Otomatis dari file config
-                pool: config.pool,          // Otomatis dari file config
+                type: config.type,
+                pool: config.pool,
                 difficulty: parseInt(extractField('KESULITAN')) || 1,
                 content: { ...parsedContent, options: options },
                 correctAnswer: extractField('JAWABAN'),
@@ -338,20 +319,15 @@ async function buildDatabaseFromTXT() {
     });
 }
 
-// DATA CADANGAN JIKA SEMUA TXT GAGAL
 function getSafeModeData() {
     return [
         { id: "safe_1", pool: "assessment", type: "series", difficulty: 2, content: { sequence: ["Data", "Cadangan", "Aktif", "?"], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", explanation: { text: "Anda melihat ini karena file TXT gagal dimuat." } },
-        { id: "safe_2", pool: "practice", type: "syllogism", difficulty: 2, content: { premises: ["Mode aman aktif.", "TXT diblokir peramban lokal."], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", explanation: { text: "Gunakan Live Server untuk memuat file TXT." } }
+        { id: "safe_2", pool: "practice", type: "syllogism", difficulty: 2, content: { premises: ["Mode aman aktif.", "TXT diblokir peramban lokal."], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", explanation: { text: "Pastikan nama file TXT Anda sudah sesuai (test_deret.txt, dll)." } }
     ];
 }
 
-// BOOTSTRAP APLIKASI
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. INSTANISIASI UI MESIN TERLEBIH DAHULU AGAR TAB NAVIGASI LANGSUNG HIDUP
     window.CogniFlow = new CogniFlowEngine();
     window.CogniFlow.init();
-    
-    // 2. Jalankan Parser 4-TXT Paralel (Promise.all)
     await buildDatabaseFromTXT();
 });
