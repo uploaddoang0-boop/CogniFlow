@@ -1,0 +1,150 @@
+===
+[ID] q_s_001
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 1
+[KONTEN] Semua pegawai PT Maju Makmur mengenakan seragam biru setiap hari Senin. Budi adalah pegawai PT Maju Makmur.
+[OPSI] Budi mengenakan seragam biru setiap hari Senin | Budi tidak mengenakan seragam biru | Budi hanya mengenakan seragam biru jika diminta | Budi bukan pegawai tetap PT Maju Makmur
+[JAWABAN] Budi mengenakan seragam biru setiap hari Senin
+[PETUNJUK]
+[PEMBAHASAN] Menggunakan silogisme kategorik Modus Ponens: Premis mayor menetapkan seluruh anggota himpunan pegawai mengenakan seragam biru pada hari Senin. Karena Budi merupakan anggota himpunan pegawai tersebut, maka Budi mengenakan seragam biru setiap hari Senin.
+
+[ID] q_s_002
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 1
+[KONTEN] Jika seorang karyawan mencapai target kuartal, maka ia berhak menerima bonus kinerja. Anton tidak menerima bonus kinerja.
+[OPSI] Anton berhak menerima bonus kinerja | Anton mencapai target kuartal | Anton tidak mencapai target kuartal | Anton mengundurkan diri sebelum kuartal berakhir
+[JAWABAN] Anton tidak mencapai target kuartal
+[PETUNJUK]
+[PEMBAHASAN] Mengikuti kaidah Modus Tollens: Jika P maka Q. Negasi konsekuen (~Q) menghasilkan negasi anteseden (~P). Karena Anton tidak menerima bonus kinerja, maka Anton tidak mencapai target kuartal.
+
+[ID] q_s_003
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 1
+[KONTEN] Tidak ada reptil yang bernapas dengan insang. Ular adalah jenis reptil.
+[OPSI] Ular bernapas dengan insang | Ular tidak bernapas dengan insang | Sebagian ular bernapas dengan insang | Ular dapat bernapas di dalam air
+[JAWABAN] Ular tidak bernapas dengan insang
+[PETUNJUK]
+[PEMBAHASAN] Premis mayor berbentuk universal negatif (Tidak ada A yang merupakan B). Ular adalah anggota subset A. Kesimpulan mutlak yang diturunkan adalah ular bukan B, yaitu ular tidak bernapas dengan insang.
+
+[ID] q_s_004
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 2
+[KONTEN] Jika cuaca buruk melanda bandara, maka seluruh penerbangan ditunda. Jika seluruh penerbangan ditunda, maka jadwal seminar nasional bergeser.
+[OPSI] Jika cuaca tidak buruk melanda bandara, maka jadwal seminar nasional tidak bergeser | Jika jadwal seminar nasional bergeser, maka cuaca buruk melanda bandara | Jika cuaca buruk melanda bandara, maka jadwal seminar nasional bergeser | Penerbangan tetap berlangsung meski seminar nasional bergeser
+[JAWABAN] Jika cuaca buruk melanda bandara, maka jadwal seminar nasional bergeser
+[PETUNJUK]
+[PEMBAHASAN] Menggunakan Silogisme Hipotetis berantai: Jika P -> Q dan Q -> R, maka kesimpulan sah yang diturunkan adalah P -> R (Jika cuaca buruk melanda bandara, maka jadwal seminar nasional bergeser).
+
+[ID] q_s_005
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 2
+[KONTEN] Semua insinyur perangkat lunak menguasai struktur data. Sebagian staf Divisi TI adalah insinyur perangkat lunak.
+[OPSI] Semua staf Divisi TI menguasai struktur data | Sebagian staf Divisi TI menguasai struktur data | Semua pihak yang menguasai struktur data adalah staf Divisi TI | Tidak ada staf Divisi TI yang menguasai struktur data
+[JAWABAN] Sebagian staf Divisi TI menguasai struktur data
+[PETUNJUK]
+[PEMBAHASAN] Pertemuan antara premis universal afirmatif dan partikular afirmatif menghasilkan konklusi partikular afirmatif (Darii). Bagian staf Divisi TI yang berprofesi sebagai insinyur perangkat lunak secara otomatis menguasai struktur data.
+
+[ID] q_s_006
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 2
+[KONTEN] Semua buku referensi terbitan Penerbit X telah lolos verifikasi kurikulum. Beberapa buku referensi di perpustakaan kota tidak lolos verifikasi kurikulum.
+[OPSI] Semua buku referensi di perpustakaan kota bukan terbitan Penerbit X | Beberapa buku referensi di perpustakaan kota bukan terbitan Penerbit X | Semua buku referensi di perpustakaan kota merupakan terbitan Penerbit X | Beberapa buku referensi terbitan Penerbit X ada di perpustakaan kota
+[JAWABAN] Beberapa buku referensi di perpustakaan kota bukan terbitan Penerbit X
+[PETUNJUK]
+[PEMBAHASAN] Silogisme kategori kombinasi universal afirmatif dan partikular negatif (Baroco). Objek yang tidak lolos verifikasi pasti berada di luar himpunan Penerbit X. Oleh karena itu, sebagian buku perpustakaan kota tersebut bukan terbitan Penerbit X.
+
+[ID] q_s_007
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 3
+[KONTEN] Sebagian atlet lari mengonsumsi suplemen nutrisi intensif. Semua orang yang mengonsumsi suplemen nutrisi intensif wajib menjalani pengawasan tim medis.
+[OPSI] Semua atlet lari wajib menjalani pengawasan tim medis | Sebagian orang yang wajib menjalani pengawasan tim medis adalah atlet lari | Semua orang yang menjalani pengawasan tim medis mengonsumsi suplemen nutrisi intensif | Tidak ada atlet lari yang menjalani pengawasan tim medis
+[JAWABAN] Sebagian orang yang wajib menjalani pengawasan tim medis adalah atlet lari
+[PETUNJUK]
+[PEMBAHASAN] Bentuk silogisme: Sebagian A adalah B. Semua B adalah C. Konklusi langsungnya adalah "Sebagian A adalah C" yang setara secara konversi logika dengan "Sebagian C adalah A" (Sebagian orang yang wajib menjalani pengawasan tim medis adalah atlet lari).
+
+[ID] q_s_008
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 3
+[KONTEN] Semua peneliti laboratorium biokimia wajib memakai pelindung biosafety tingkat 3. Sebagian asisten teknis laboratorium biokimia tidak memakai pelindung biosafety tingkat 3.
+[OPSI] Semua asisten teknis adalah peneliti laboratorium biokimia | Sebagian asisten teknis laboratorium biokimia bukan peneliti | Tidak ada asisten teknis yang menjadi peneliti laboratorium biokimia | Peneliti laboratorium biokimia tidak boleh menjadi asisten teknis
+[JAWABAN] Sebagian asisten teknis laboratorium biokimia bukan peneliti
+[PETUNJUK]
+[PEMBAHASAN] Premis mayor menetapkan P subset K (Semua peneliti berpelindung). Jika seseorang bukan K (~K), maka orang tersebut pasti bukan P (~P). Karena ada asisten teknis yang tergolong ~K, maka sebagian asisten teknis tersebut dipastikan bukan peneliti laboratorium biokimia.
+
+[ID] q_s_009
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 3
+[KONTEN] Setiap pimpinan cabang harus memiliki sertifikat kompetensi perbankan atau memiliki masa dinas manajerial minimal lima tahun. Faisal adalah pimpinan cabang yang masa dinas manajerialnya belum mencapai lima tahun.
+[OPSI] Faisal tidak memenuhi kualifikasi pimpinan cabang | Faisal memiliki sertifikat kompetensi perbankan | Faisal memiliki masa dinas manajerial empat tahun | Faisal belum memiliki sertifikat kompetensi perbankan
+[JAWABAN] Faisal memiliki sertifikat kompetensi perbankan
+[PETUNJUK]
+[PEMBAHASAN] Menggunakan silogisme disjungtif: Seseorang wajib memenuhi P atau Q. Diketahui Faisal memegang jabatan tersebut namun menegasikan kondisi Q (belum mencapai 5 tahun). Maka kondisi P wajib terpenuhi, yaitu Faisal memiliki sertifikat kompetensi perbankan.
+
+[ID] q_s_010
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 4
+[KONTEN] Jika tata kelola rantai pasok tidak efisien, maka beban operasional pabrik membengkak. Jika beban operasional pabrik membengkak, rasio laba tahunan menyusut tajam. Rasio laba tahunan Pabrik Sentosa tidak menyusut tajam.
+[OPSI] Beban operasional Pabrik Sentosa membengkak | Tata kelola rantai pasok Pabrik Sentosa efisien | Pabrik Sentosa mengalami peningkatan beban non-operasional | Efisiensi rantai pasok Pabrik Sentosa tidak memengaruhi laba
+[JAWABAN] Tata kelola rantai pasok Pabrik Sentosa efisien
+[PETUNJUK]
+[PEMBAHASAN] Rantai implikasi: ~E -> B, B -> M, sehingga ~E -> M. Kontraposisi dari premis majemuk tersebut adalah ~M -> E (Jika laba tidak menyusut tajam, maka rantai pasok efisien). Karena ~M terbukti, disimpulkan tata kelola rantai pasok Pabrik Sentosa efisien.
+
+[ID] q_s_011
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 4
+[KONTEN] Sebagian analis risiko memegang lisensi aktuaria profesional. Tidak ada pemegang lisensi aktuaria profesional yang melanggar kode etik profesi. Semua broker spekulatif melanggar kode etik profesi.
+[OPSI] Semua broker spekulatif adalah analis risiko | Sebagian analis risiko bukan broker spekulatif | Tidak ada analis risiko yang bekerja sebagai broker spekulatif | Semua pemegang lisensi aktuaria profesional adalah broker spekulatif
+[JAWABAN] Sebagian analis risiko bukan broker spekulatif
+[PETUNJUK]
+[PEMBAHASAN] Pemegang lisensi aktuaria dan broker spekulatif berada pada dua himpunan terpisah tanpa irisan (disjoin) karena aturan kode etik. Karena sebagian analis risiko berada di dalam himpunan pemegang lisensi aktuaria, maka bagian dari analis risiko tersebut dipastikan bukan broker spekulatif.
+
+[ID] q_s_012
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 4
+[KONTEN] Tidak ada anggota komite audit internal yang merangkap posisi pada dewan eksekutif pelaksana. Sebagian akuntan forensik merangkap posisi pada dewan eksekutif pelaksana.
+[OPSI] Semua akuntan forensik bukan anggota komite audit internal | Sebagian akuntan forensik bukan anggota komite audit internal | Semua anggota komite audit internal adalah akuntan forensik | Sebagian anggota dewan eksekutif pelaksana adalah anggota komite audit internal
+[JAWABAN] Sebagian akuntan forensik bukan anggota komite audit internal
+[PETUNJUK]
+[PEMBAHASAN] Silogisme kategori bentuk Festino (EIO-2): Himpunan komite audit terpisah penuh dari dewan eksekutif. Akuntan forensik yang merangkap jabatan di dewan eksekutif dipastikan tidak mungkin menjadi anggota komite audit internal.
+
+[ID] q_s_013
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 5
+[KONTEN] Jika sistem otomasi pabrik beroperasi penuh dan pasokan listrik berfluktuasi, maka alarm cadangan aktif. Alarm cadangan tidak aktif saat pasokan listrik berfluktuasi.
+[OPSI] Sistem otomasi pabrik beroperasi penuh | Sistem otomasi pabrik tidak beroperasi penuh | Pasokan listrik pabrik berada dalam kondisi stabil | Alarm cadangan mengalami kerusakan teknis
+[JAWABAN] Sistem otomasi pabrik tidak beroperasi penuh
+[PETUNJUK]
+[PEMBAHASAN] Berdasarkan Modus Tollens pada implikasi berkonjungsi: (P ^ Q) -> R. Diketahui ~R terjadi, maka ~(P ^ Q) atau (~P v ~Q). Karena premis menyatakan pasokan listrik berfluktuasi (Q bernilai benar), maka melalui silogisme disjungtif, ~P harus benar (Sistem otomasi pabrik tidak beroperasi penuh).
+
+[ID] q_s_014
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 5
+[KONTEN] Seorang kandidat hanya direkrut sebagai data scientist jika menguasai kalkulus multivariat dan bahasa pemrograman fungsional. Kandidat yang tidak menguasai riset algoritma tidak mungkin menguasai kalkulus multivariat. Hendra resmi direkrut sebagai data scientist.
+[OPSI] Hendra tidak menguasai bahasa pemrograman fungsional | Hendra menguasai riset algoritma | Hendra belum menguasai riset algoritma | Hendra direkrut tanpa melalui kualifikasi teknis
+[JAWABAN] Hendra menguasai riset algoritma
+[PETUNJUK]
+[PEMBAHASAN] Syarat mutlak penerimaan (D) menuntut penguasaan kalkulus multivariat (K) dan bahasa fungsional (F): D -> (K ^ F). Kontraposisi dari premis kedua (~R -> ~K) adalah K -> R. Karena Hendra direkrut (D), ia menguasai K. Melalui Modus Ponens dari K -> R, disimpulkan bahwa Hendra menguasai riset algoritma (R).
+
+[ID] q_s_015
+[TIPE] syllogism
+[POOL] assessment
+[KESULITAN] 5
+[KONTEN] Jika seorang pelamar tidak memiliki sertifikasi keahlian atau gagal dalam uji psikometri, maka ia tidak dinyatakan lolos seleksi akhir. Bagas dinyatakan lolos seleksi akhir.
+[OPSI] Bagas tidak memiliki sertifikasi keahlian namun lolos | Bagas memiliki sertifikasi keahlian dan tidak gagal dalam uji psikometri | Bagas hanya memenuhi salah satu kualifikasi teknis | Bagas gagal dalam uji psikometri tetapi sertifikasinya diakui
+[JAWABAN] Bagas memiliki sertifikasi keahlian dan tidak gagal dalam uji psikometri
+[PETUNJUK]
+[PEMBAHASAN] Formulasi logika: (~S v G) -> ~L. Berdasarkan Modus Tollens, penegasan konsekuen Lolos (L) mengharuskan negasi anteseden: ~(~S v G). Menggunakan Hukum De Morgan, bentuk ekuivalen dari ~(~S v G) adalah S ^ ~G (memiliki sertifikasi keahlian DAN tidak gagal dalam uji psikometri).

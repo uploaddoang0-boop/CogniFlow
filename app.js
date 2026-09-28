@@ -12,10 +12,14 @@ class CogniFlowEngine {
 
         this.state = { mode: null, subType: null, questionPool: [], usedQuestionIds: new Set(), currentQuestion: null, targetDifficulty: 2, questionStartTime: 0, questionsAnswered: 0, maxQuestions: 5, correctAnswers: 0, sessionTimeLeft: 900, timerInterval: null };
         this.userStats = { streakDays: 0, lastPlayedDate: null, totalCorrect: 0, totalAnswered: 0, totalResponseTime: 0 };
-        this.init();
     }
 
-    init() { this.loadLocalStorage(); this.updateDashboardUI(); this.attachEventListeners(); }
+    init() { 
+        this.loadLocalStorage(); 
+        this.updateDashboardUI(); 
+        this.attachEventListeners(); 
+        console.log("CogniFlow Engine v2.0 [TXT Database Parser] Ready.");
+    }
 
     loadLocalStorage() { const saved = localStorage.getItem('cogniflow_stats'); if (saved) { this.userStats = JSON.parse(saved); } else { this.saveLocalStorage(); } }
     saveLocalStorage() { localStorage.setItem('cogniflow_stats', JSON.stringify(this.userStats)); }
@@ -63,15 +67,16 @@ class CogniFlowEngine {
         this.DOM.buttons.startPracSyllogism.addEventListener('click', () => this.startSession('practice', 'syllogism'));
         
         this.DOM.buttons.home.addEventListener('click', () => { this.updateDashboardUI(); this.switchTab('home'); });
-        
         this.DOM.buttons.hint.addEventListener('click', () => { if (this.state.currentQuestion.hints && this.state.currentQuestion.hints.length > 0) alert("Pemantik Logika: \n\n" + this.state.currentQuestion.hints[0]); });
         this.DOM.buttons.nextPractice.addEventListener('click', () => { this.DOM.quiz.explanationContainer.style.display = 'none'; this.DOM.quiz.optionsContainer.style.pointerEvents = 'auto'; this.prepareNextQuestion(); });
     }
 
     startSession(mode, subType = null) {
         this.state.mode = mode; this.state.subType = subType;
-        this.state.questionPool = questionDatabase.filter(q => q.pool === mode && (!subType || q.type === subType));
-        if(this.state.questionPool.length === 0) return alert(`Sistem: Bank soal belum tersedia untuk modul ini.`);
+        
+        // Membaca dari memori global yang di-injeksi oleh TXT Parser
+        this.state.questionPool = window.globalQuestionDatabase.filter(q => q.pool === mode && (!subType || q.type === subType));
+        if(this.state.questionPool.length === 0) return alert(`Sistem: Bank soal belum tersedia untuk modul ini. Pastikan file TXT tidak kosong.`);
         
         this.state.usedQuestionIds.clear(); this.state.questionsAnswered = 0; this.state.correctAnswers = 0;
         this.state.targetDifficulty = 2; this.state.maxQuestions = (mode === 'assessment') ? 5 : 3; 
@@ -113,7 +118,7 @@ class CogniFlowEngine {
 
     handleAnswer(selectedOpt, btnElement) {
         const q = this.state.currentQuestion;
-        const isCorrect = (selectedOpt === q.correctAnswer);
+        const isCorrect = (selectedOpt.trim() === q.correctAnswer.trim());
         const timeTaken = (Date.now() - this.state.questionStartTime) / 1000;
         
         if (navigator.vibrate) isCorrect ? navigator.vibrate([30, 50, 30]) : navigator.vibrate(200);
@@ -169,4 +174,92 @@ class CogniFlowEngine {
         this.navigate('result');
     }
 }
-document.addEventListener('DOMContentLoaded', () => { window.CogniFlow = new CogniFlowEngine(); });
+
+/* =========================================================
+   ASYNCHRONOUS TXT PARSER ENGINE 
+   ========================================================= */
+async function buildDatabaseFromTXT() {
+    window.globalQuestionDatabase = [];
+    const files = ['deret.txt', 'silogisme.txt', 'latihan.txt'];
+
+    for (const file of files) {
+        try {
+            const response = await fetch(file);
+            if (!response.ok) {
+                console.warn(`[CogniFlow Parser] File ${file} tidak ditemukan atau gagal dimuat.`);
+                continue;
+            }
+            const textContent = await response.text();
+            
+            // Pisahkan berdasarkan delimiter '==='
+            const blocks = textContent.split('===');
+            
+            for (const block of blocks) {
+                if (block.trim().length === 0) continue; // Lewati blok kosong
+                
+                // Fungsi Helper Ekstraksi RegEx
+                const extractField = (fieldName) => {
+                    const regex = new RegExp(`\\[${fieldName}\\]\\s*(.*)`);
+                    const match = block.match(regex);
+                    return match ? match[1].trim() : '';
+                };
+
+                const type = extractField('TIPE').toLowerCase();
+                const contentStr = extractField('KONTEN');
+                
+                // Logika Parsing Tipe Spesifik
+                let parsedContent = {};
+                if (type === 'series') {
+                    // Pecah koma jadi array angka/tanda tanya
+                    parsedContent.sequence = contentStr.split(',').map(s => s.trim());
+                } else if (type === 'syllogism') {
+                    // Pecah berdasarkan titik atau baris baru
+                    parsedContent.premises = contentStr.split(/(?:\r?\n|\. )/)
+                        .map(s => s.trim().replace(/\.$/, ''))
+                        .filter(s => s.length > 0);
+                }
+
+                // Ambil & bersihkan Opsi Jawaban
+                const optionsRaw = extractField('OPSI');
+                const options = optionsRaw.split('|').map(s => s.trim());
+                
+                const hint = extractField('PETUNJUK');
+
+                // Rakit Objek (Meniru data.js lama)
+                const questionObj = {
+                    id: extractField('ID'),
+                    type: type,
+                    pool: extractField('POOL').toLowerCase(),
+                    difficulty: parseInt(extractField('KESULITAN')) || 1,
+                    content: { ...parsedContent, options: options },
+                    correctAnswer: extractField('JAWABAN'),
+                    hints: hint ? [hint] : [],
+                    explanation: { text: extractField('PEMBAHASAN') }
+                };
+
+                // Validasi Data Keamanan (Cegah masuk jika data korup)
+                if (questionObj.id && questionObj.content.options.length > 1) {
+                    window.globalQuestionDatabase.push(questionObj);
+                }
+            }
+        } catch (error) {
+            console.error(`[CogniFlow Parser Error] Gagal membedah ${file}:`, error);
+        }
+    }
+}
+
+// BOOTSTRAP APLIKASI
+// Jalankan Parser asinkronus DULU, setelah selesai baru nyalakan mesin CogniFlow.
+document.addEventListener('DOMContentLoaded', async () => {
+    // Tombol di-disable dulu saat parsing agar user tidak klik sebelum data siap
+    const startBtns = document.querySelectorAll('button[id^="btn-start"]');
+    startBtns.forEach(btn => btn.style.opacity = '0.5');
+
+    await buildDatabaseFromTXT(); // Tunggu file teks diterjemahkan
+    
+    // Nyalakan Mesin UI
+    window.CogniFlow = new CogniFlowEngine();
+    
+    // Buka kunci tombol
+    startBtns.forEach(btn => btn.style.opacity = '1');
+});

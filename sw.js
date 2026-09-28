@@ -1,5 +1,14 @@
-const CACHE_NAME = 'cogniflow-cache-v1.2.0';
-const ASSETS = [ '/', '/index.html', '/app.js', '/data.js', '/icon.svg', '/manifest.json' ];
+const CACHE_NAME = 'cogniflow-cache-v2.0.0';
+const ASSETS = [ 
+    '/', 
+    '/index.html', 
+    '/app.js', 
+    '/icon.svg', 
+    '/manifest.json',
+    '/deret.txt',
+    '/silogisme.txt',
+    '/latihan.txt'
+];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));
