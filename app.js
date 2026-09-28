@@ -263,3 +263,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Buka kunci tombol
     startBtns.forEach(btn => btn.style.opacity = '1');
 });
+
+// BOOTSTRAP APLIKASI (DENGAN PROTEKSI ERROR VISUAL)
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Kunci tombol sementara
+    const startBtns = document.querySelectorAll('#btn-start-daily, #btn-practice-series, #btn-practice-syllogism');
+    startBtns.forEach(btn => btn.style.opacity = '0.5');
+
+    try {
+        // 2. Jalankan Parser TXT
+        await buildDatabaseFromTXT();
+        
+        // 3. Validasi Keberhasilan Parser
+        if (window.globalQuestionDatabase.length === 0) {
+            alert("⚠️ KESALAHAN PARSER: File TXT berhasil dibaca, tetapi tidak ada soal yang valid. Periksa apakah format [TIPE], [KONTEN], dan [OPSI] sudah persis sesuai instruksi AI.");
+            return; // Hentikan eksekusi agar tidak crash
+        }
+        
+        // 4. Nyalakan Mesin UI jika data aman
+        window.CogniFlow = new CogniFlowEngine();
+        
+        // 5. Buka kunci tombol
+        startBtns.forEach(btn => {
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+        });
+
+    } catch (e) {
+        alert("⚠️ KESALAHAN JARINGAN: Gagal memuat aplikasi. Pastikan Anda tidak membuka file ini langsung dari C:/ (Gunakan Live Server atau GitHub Pages). Error: " + e.message);
+    }
+});
