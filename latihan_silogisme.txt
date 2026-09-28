@@ -1,0 +1,119 @@
+===
+\[ID\] ls_01
+\[KESULITAN\] 1
+\[SOAL\] Jika hari ini adalah hari libur nasional, maka bank tidak beroperasi. Hari ini adalah hari libur nasional. Kesimpulan yang tepat adalah...
+\[OPSI\] Bank tetap beroperasi setengah hari | Bank tidak beroperasi | Hari ini bukan hari libur nasional | Bank beroperasi seperti biasa
+\[JAWABAN\] Bank tidak beroperasi
+\[PEMBAHASAN\] Silogisme Modus Ponens (p -> q; p; maka q). Karena syarat di premis pertama terpenuhi, maka akibatnya pasti terjadi.
+
+===
+\[ID\] ls_02
+\[KESULITAN\] 1
+\[SOAL\] Jika tanaman disiram setiap hari, maka tanaman akan tumbuh subur. Tanaman tidak tumbuh subur. Kesimpulan yang tepat adalah...
+\[OPSI\] Tanaman disiram setiap hari | Tanaman mungkin disiram | Tanaman tidak disiram setiap hari | Tanaman kekurangan pupuk
+\[JAWABAN\] Tanaman tidak disiram setiap hari
+\[PEMBAHASAN\] Silogisme Modus Tollens (p -> q; ~q; maka ~p). Karena akibat tidak terjadi (tanaman tidak subur), maka sebab awalnya pasti tidak dilakukan.
+
+===
+\[ID\] ls_03
+\[KESULITAN\] 1
+\[SOAL\] Semua hewan mamalia bernapas menggunakan paru-paru. Lumba-lumba adalah hewan mamalia. Kesimpulan yang tepat adalah...
+\[OPSI\] Lumba-lumba bernapas menggunakan insang | Lumba-lumba bukan hewan mamalia | Lumba-lumba bernapas menggunakan paru-paru | Lumba-lumba bisa bernapas di air
+\[JAWABAN\] Lumba-lumba bernapas menggunakan paru-paru
+\[PEMBAHASAN\] Silogisme kategorial dasar. Karena subjek (lumba-lumba) masuk dalam himpunan universal (mamalia), ia mewarisi sifat universal tersebut (bernapas dengan paru-paru).
+
+===
+\[ID\] ls_04
+\[KESULITAN\] 2
+\[SOAL\] Jika pasokan barang berkurang, maka harga di pasar akan naik. Jika harga di pasar naik, maka inflasi meningkat. Kesimpulan yang sah adalah...
+\[OPSI\] Jika pasokan barang berkurang, maka inflasi meningkat | Jika inflasi meningkat, maka pasokan barang berkurang | Harga di pasar naik karena inflasi | Jika pasokan barang bertambah, inflasi turun
+\[JAWABAN\] Jika pasokan barang berkurang, maka inflasi meningkat
+\[PEMBAHASAN\] Silogisme Hipotesis berantai (p -> q; q -> r; maka p -> r). Menghasilkan kesimpulan bersyarat yang menghubungkan premis pertama dan akibat terakhir.
+
+===
+\[ID\] ls_05
+\[KESULITAN\] 2
+\[SOAL\] Semua kendaraan roda empat wajib melewati jalan tol. Tidak ada sepeda motor yang wajib melewati jalan tol. Kesimpulan yang tepat adalah...
+\[OPSI\] Semua sepeda motor adalah kendaraan roda empat | Tidak ada sepeda motor yang merupakan kendaraan roda empat | Beberapa sepeda motor melewati jalan tol | Kendaraan roda empat sama dengan sepeda motor
+\[JAWABAN\] Tidak ada sepeda motor yang merupakan kendaraan roda empat
+\[PEMBAHASAN\] Silogisme Kategorial dengan premis negatif mutlak. Karena himpunan A (roda empat) wajib masuk tol, dan himpunan B (sepeda motor) mutlak dilarang, maka himpunan A dan B tidak memiliki irisan.
+
+===
+\[ID\] ls_06
+\[KESULITAN\] 3
+\[SOAL\] Semua atlet profesional harus menjaga pola makan. Beberapa mahasiswa adalah atlet profesional. Kesimpulan yang tepat adalah...
+\[OPSI\] Semua mahasiswa harus menjaga pola makan | Beberapa mahasiswa harus menjaga pola makan | Semua atlet profesional adalah mahasiswa | Tidak ada mahasiswa yang menjaga pola makan
+\[JAWABAN\] Beberapa mahasiswa harus menjaga pola makan
+\[PEMBAHASAN\] Silogisme Partikular. Sifat dari himpunan universal (atlet profesional) melekat pada bagian dari himpunan lain (mahasiswa) yang beririsan dengannya.
+
+===
+\[ID\] ls_07
+\[KESULITAN\] 3
+\[SOAL\] Semua pimpinan perusahaan memakai kemeja berdasi saat rapat. Pak Budi memakai kemeja berdasi saat rapat. Kesimpulan yang paling sah adalah...
+\[OPSI\] Pak Budi adalah pimpinan perusahaan | Pak Budi bukan pimpinan perusahaan | Tidak dapat ditarik kesimpulan pasti | Pak Budi adalah peserta rapat biasa
+\[JAWABAN\] Tidak dapat ditarik kesimpulan pasti
+\[PEMBAHASAN\] Kesesatan logika (Fallacy of Undistributed Middle). "Memakai kemeja berdasi" adalah predikat/akibat, bukan subjek penentu. Orang selain pimpinan perusahaan bisa saja memakai kemeja berdasi.
+
+===
+\[ID\] ls_08
+\[KESULITAN\] 3
+\[SOAL\] Semua burung merpati dapat terbang tinggi. Beberapa hewan bersayap di taman tidak dapat terbang tinggi. Kesimpulan yang tepat adalah...
+\[OPSI\] Semua hewan bersayap di taman adalah burung merpati | Beberapa hewan bersayap di taman bukan burung merpati | Beberapa burung merpati tidak bersayap | Tidak ada burung merpati di taman
+\[JAWABAN\] Beberapa hewan bersayap di taman bukan burung merpati
+\[PEMBAHASAN\] Penarikan kesimpulan partikular negatif. Karena semua merpati pasti bisa terbang tinggi, hewan bersayap yang tidak bisa terbang tinggi pasti di luar himpunan merpati.
+
+===
+\[ID\] ls_09
+\[KESULITAN\] 4
+\[SOAL\] Jika calon pegawai lulus ujian tulis dan lulus wawancara, maka ia diterima bekerja. Calon pegawai X tidak diterima bekerja. Kesimpulan yang pasti adalah...
+\[OPSI\] Calon pegawai X tidak lulus ujian tulis dan tidak lulus wawancara | Calon pegawai X tidak lulus ujian tulis atau tidak lulus wawancara | Calon pegawai X hanya gagal di ujian tulis | Calon pegawai X tidak datang ujian
+\[JAWABAN\] Calon pegawai X tidak lulus ujian tulis atau tidak lulus wawancara
+\[PEMBAHASAN\] Modus Tollens dikombinasikan dengan Hukum De Morgan. Negasi dari (p DAN q) adalah (~p ATAU ~q). Jika akibat gugur, maka minimal salah satu dari syarat wajibnya pasti tidak terpenuhi.
+
+===
+\[ID\] ls_10
+\[KESULITAN\] 4
+\[SOAL\] Jika pemerintah tidak mencabut subsidi, maka harga BBM tidak naik. Saat ini harga BBM naik. Kesimpulan yang sah adalah...
+\[OPSI\] Pemerintah mencabut subsidi | Pemerintah tidak mencabut subsidi | Harga BBM akan segera turun kembali | Masyarakat mengurangi pembelian BBM
+\[JAWABAN\] Pemerintah mencabut subsidi
+\[PEMBAHASAN\] Premis dengan negasi ganda (~p -> ~q). Diketahui q (harga naik), yang merupakan negasi dari ~q. Menggunakan Modus Tollens, kesimpulannya adalah negasi dari ~p, yaitu p (pemerintah mencabut subsidi).
+
+===
+\[ID\] ls_11
+\[KESULITAN\] 4
+\[SOAL\] Jika pabrik menambah jam operasi, maka produksi barang meningkat. Jika produksi barang meningkat, maka target ekspor tercapai. Target ekspor tidak tercapai. Kesimpulan yang sah adalah...
+\[OPSI\] Pabrik menambah jam operasi | Pabrik tidak menambah jam operasi | Produksi barang meningkat drastis | Target ekspor mungkin diubah
+\[JAWABAN\] Pabrik tidak menambah jam operasi
+\[PEMBAHASAN\] Rantai tiga premis berantai yang berujung pada Modus Tollens (p -> q; q -> r; ~r; maka ~p). Kegagalan pada rantai terakhir membuktikan bahwa pemicu paling awal juga bernilai salah.
+
+===
+\[ID\] ls_12
+\[KESULITAN\] 4
+\[SOAL\] Semua mahasiswa teknik mesin pandai berhitung. Sebagian mahasiswa teknik mesin menyukai seni musik. Tidak ada orang yang pandai berhitung yang tidak mampu berpikir logis. Kesimpulan yang sah adalah...
+\[OPSI\] Semua mahasiswa teknik mesin menyukai seni musik | Sebagian orang yang menyukai seni musik mampu berpikir logis | Tidak ada yang pandai berhitung yang menyukai seni musik | Semua yang mampu berpikir logis menyukai seni musik
+\[JAWABAN\] Sebagian orang yang menyukai seni musik mampu berpikir logis
+\[PEMBAHASAN\] Sorites/Silogisme kompleks. Sebagian mahasiswa (suka musik) -> pandai berhitung. Premis 3 adalah negasi ganda yang artinya "Semua yang pandai berhitung mampu berpikir logis". Maka sebagian penyuka musik tersebut mampu berpikir logis.
+
+===
+\[ID\] ls_13
+\[KESULITAN\] 5
+\[SOAL\] Jika perusahaan mengakuisisi startup A, laba kuartal ini akan meningkat. Jika perusahaan meluncurkan produk B, pangsa pasar akan meluas. Saat ini laba kuartal tidak meningkat atau pangsa pasar tidak meluas. Kesimpulan yang tepat adalah...
+\[OPSI\] Perusahaan tidak mengakuisisi startup A dan tidak meluncurkan produk B | Perusahaan tidak mengakuisisi startup A atau tidak meluncurkan produk B | Startup A gagal diakuisisi namun produk B diluncurkan | Perusahaan mengalami kebangkrutan operasional
+\[JAWABAN\] Perusahaan tidak mengakuisisi startup A atau tidak meluncurkan produk B
+\[PEMBAHASAN\] Silogisme Disjungtif / Dilema Destruktif (p -> r; q -> s; ~r ATAU ~s; maka ~p ATAU ~q). Mundurnya salah satu atau kedua akibat membuktikan gagalnya salah satu atau kedua sebab awal.
+
+===
+\[ID\] ls_14
+\[KESULITAN\] 5
+\[SOAL\] Semua dokter spesialis wajib mengikuti simposium tahunan. Beberapa dosen fakultas kedokteran adalah dokter spesialis. Semua orang yang mengikuti simposium tahunan mendapatkan sertifikat kompetensi. Kesimpulan yang sah adalah...
+\[OPSI\] Semua dosen fakultas kedokteran mendapatkan sertifikat kompetensi | Beberapa dosen fakultas kedokteran mendapatkan sertifikat kompetensi | Tidak ada dosen kedokteran yang mendapatkan sertifikat | Semua dokter spesialis adalah dosen kedokteran
+\[JAWABAN\] Beberapa dosen fakultas kedokteran mendapatkan sertifikat kompetensi
+\[PEMBAHASAN\] Silogisme bersarang tiga tingkat. Irisan himpunan A (dosen) pada himpunan B (dokter spesialis) membuatnya terikat pada kewajiban C (simposium), yang kemudian berbuah pada D (sertifikat). Jadi irisan A (beberapa dosen) berujung mendapat D.
+
+===
+\[ID\] ls_15
+\[KESULITAN\] 5
+\[SOAL\] Seorang karyawan akan mendapat bonus akhir tahun jika dan hanya jika ia tidak pernah absen dan selalu mencapai target bulanan. Karyawan Y tidak mendapat bonus akhir tahun dan diketahui ia selalu mencapai target bulanan. Kesimpulan yang sah adalah...
+\[OPSI\] Karyawan Y mencapai target bulanan karena rajin | Karyawan Y tidak pernah absen | Karyawan Y pernah absen | Karyawan Y mendapat bonus tahun depan
+\[JAWABAN\] Karyawan Y pernah absen
+\[PEMBAHASAN\] Logika Bi-implikasi dengan konjungsi (p <-> (q DAN r)). Agar p benar, q dan r harus benar. Diketahui ~p (tidak dapat bonus), artinya (q DAN r) salah, maka (~q ATAU ~r). Karena r benar (capai target), maka ~q (pernah absen) haruslah benar.

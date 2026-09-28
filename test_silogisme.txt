@@ -1,0 +1,119 @@
+===
+\[ID\] ts_01
+\[KESULITAN\] 1
+\[SOAL\] Premis 1: Jika hari ini hujan, maka jalanan akan basah. Premis 2: Hari ini hujan. Kesimpulan yang tepat adalah...
+\[OPSI\] Jalanan tidak basah | Jalanan akan basah | Hari ini tidak hujan | Jalanan mungkin basah
+\[JAWABAN\] Jalanan akan basah
+\[PEMBAHASAN\] Silogisme Modus Ponens dasar (p -> q; p; maka q). Karena kondisi awal (p) terpenuhi, maka akibatnya (q) pasti terjadi.
+
+===
+\[ID\] ts_02
+\[KESULITAN\] 1
+\[SOAL\] Premis 1: Jika Andi rajin belajar, maka ia akan lulus ujian. Premis 2: Andi tidak lulus ujian. Kesimpulan yang tepat adalah...
+\[OPSI\] Andi rajin belajar | Andi mungkin belajar | Andi tidak rajin belajar | Ujian terlalu sulit
+\[JAWABAN\] Andi tidak rajin belajar
+\[PEMBAHASAN\] Silogisme Modus Tollens dasar (p -> q; ~q; maka ~p). Karena akibat tidak terjadi (~q), maka syarat awalnya (~p) pasti tidak terpenuhi.
+
+===
+\[ID\] ts_03
+\[KESULITAN\] 2
+\[SOAL\] Jika cuaca cerah, maka petani menjemur padi. Jika petani menjemur padi, maka beras cepat dipanen. Kesimpulan yang sah adalah...
+\[OPSI\] Jika cuaca cerah, maka beras cepat dipanen | Jika beras cepat dipanen, maka cuaca cerah | Petani menjemur padi saat beras dipanen | Jika cuaca tidak cerah, maka beras tidak dipanen
+\[JAWABAN\] Jika cuaca cerah, maka beras cepat dipanen
+\[PEMBAHASAN\] Silogisme Hipotesis berantai (p -> q; q -> r; maka p -> r). Menghasilkan premis bersyarat baru yang menghubungkan sebab pertama dengan akibat terakhir.
+
+===
+\[ID\] ts_04
+\[KESULITAN\] 2
+\[SOAL\] Jika perusahaan mencapai target penjualan, maka seluruh karyawan mendapat bonus. Sebagian karyawan tidak mendapat bonus. Kesimpulan yang sah adalah...
+\[OPSI\] Perusahaan mencapai target penjualan | Perusahaan tidak mencapai target penjualan | Karyawan bekerja kurang keras | Sebagian karyawan mencapai target
+\[JAWABAN\] Perusahaan tidak mencapai target penjualan
+\[PEMBAHASAN\] Modus Tollens. Meskipun premis kedua menggunakan kata "sebagian", faktanya akibat "seluruh karyawan mendapat bonus" menjadi gugur (bernilai salah), sehingga syarat awal pasti batal.
+
+===
+\[ID\] ts_05
+\[KESULITAN\] 2
+\[SOAL\] Semua peserta seleksi harus membawa kartu ujian dan kartu identitas. Budi adalah peserta seleksi. Kesimpulan yang pasti benar adalah...
+\[OPSI\] Budi membawa kartu ujian saja | Budi membawa kartu identitas saja | Budi membawa kartu ujian dan kartu identitas | Budi mungkin membawa kartu ujian
+\[JAWABAN\] Budi membawa kartu ujian dan kartu identitas
+\[PEMBAHASAN\] Silogisme kategorial sederhana. Karena Budi masuk dalam himpunan "peserta seleksi", maka semua atribut himpunan tersebut melekat padanya.
+
+===
+\[ID\] ts_06
+\[KESULITAN\] 3
+\[SOAL\] Semua pegawai negeri memakai seragam. Beberapa orang yang memakai kacamata adalah pegawai negeri. Kesimpulan yang tepat adalah...
+\[OPSI\] Semua pegawai negeri memakai kacamata | Beberapa orang yang memakai kacamata memakai seragam | Semua yang memakai kacamata memakai seragam | Beberapa orang yang memakai seragam bukan pegawai negeri
+\[JAWABAN\] Beberapa orang yang memakai kacamata memakai seragam
+\[PEMBAHASAN\] Silogisme Partikular (Semua A adalah B; Beberapa C adalah A; maka Beberapa C adalah B). Sifat himpunan universal diturunkan ke himpunan irisannya.
+
+===
+\[ID\] ts_07
+\[KESULITAN\] 3
+\[SOAL\] Semua hewan bertulang belakang memiliki sistem saraf pusat. Tidak ada cacing tanah yang memiliki sistem saraf pusat. Kesimpulan yang sah adalah...
+\[OPSI\] Beberapa cacing tanah bertulang belakang | Tidak ada cacing tanah yang bertulang belakang | Semua cacing tanah bertulang belakang | Hewan bertulang belakang adalah cacing tanah
+\[JAWABAN\] Tidak ada cacing tanah yang bertulang belakang
+\[PEMBAHASAN\] Silogisme dengan premis negatif (Semua A adalah B; Tidak ada C yang B; maka Tidak ada C yang A). Himpunan C berada sepenuhnya di luar himpunan B, karenanya pasti di luar A.
+
+===
+\[ID\] ts_08
+\[KESULITAN\] 3
+\[SOAL\] Semua guru selalu berpenampilan rapi. Beberapa orang yang berpenampilan rapi suka membaca buku. Kesimpulan yang paling tepat adalah...
+\[OPSI\] Beberapa guru suka membaca buku | Semua guru suka membaca buku | Tidak dapat ditarik kesimpulan pasti | Beberapa orang yang suka membaca buku adalah guru
+\[JAWABAN\] Tidak dapat ditarik kesimpulan pasti
+\[PEMBAHASAN\] Kesesatan logika (Fallacy of Undistributed Middle). "Berpenampilan rapi" adalah akibat/sifat, bukan subjek. Irisan "suka membaca buku" dengan "berpenampilan rapi" belum tentu menyentuh himpunan "guru".
+
+===
+\[ID\] ts_09
+\[KESULITAN\] 3
+\[SOAL\] Jika mesin menyala dan bensin terisi penuh, maka mobil dapat berjalan. Mobil tidak dapat berjalan. Kesimpulan yang sah adalah...
+\[OPSI\] Mesin tidak menyala dan bensin tidak terisi penuh | Mesin menyala namun bensin habis | Bensin terisi penuh namun mesin rusak | Mesin tidak menyala atau bensin tidak terisi penuh
+\[JAWABAN\] Mesin tidak menyala atau bensin tidak terisi penuh
+\[PEMBAHASAN\] Penerapan Modus Tollens dan Hukum De Morgan. ~(p DAN q) ekuivalen secara logis dengan (~p ATAU ~q).
+
+===
+\[ID\] ts_10
+\[KESULITAN\] 4
+\[SOAL\] Jika mahasiswa rajin membaca, maka wawasannya luas. Jika wawasannya luas, maka ia mudah bergaul. Mahasiswa X tidak mudah bergaul. Kesimpulan yang sah adalah...
+\[OPSI\] Mahasiswa X rajin membaca | Mahasiswa X wawasannya luas | Mahasiswa X tidak rajin membaca | Jika mahasiswa X tidak rajin membaca, maka ia mudah bergaul
+\[JAWABAN\] Mahasiswa X tidak rajin membaca
+\[PEMBAHASAN\] Logika berantai 3 tingkat dengan Modus Tollens di akhir (p -> q; q -> r; ~r; maka ~p). Karena r batal, maka rantai pemicu awalnya (p) pasti bernilai salah.
+
+===
+\[ID\] ts_11
+\[KESULITAN\] 4
+\[SOAL\] Jika harga barang tidak naik, maka daya beli masyarakat tidak turun. Saat ini daya beli masyarakat turun. Kesimpulan yang tepat adalah...
+\[OPSI\] Harga barang naik | Harga barang tidak naik | Daya beli masyarakat stabil | Harga barang turun
+\[JAWABAN\] Harga barang naik
+\[PEMBAHASAN\] Premis negatif ganda (~p -> ~q). Diketahui q (daya beli masyarakat turun, yang merupakan negasi dari ~q). Menurut Modus Tollens, kesimpulannya adalah negasi dari ~p, yaitu p (Harga barang naik).
+
+===
+\[ID\] ts_12
+\[KESULITAN\] 4
+\[SOAL\] Budi akan pergi ke gunung atau ke pantai. Jika Budi pergi ke gunung, ia akan membawa tas carrier. Jika Budi pergi ke pantai, ia akan membawa tas carrier. Kesimpulan yang sah adalah...
+\[OPSI\] Budi tidak pergi ke mana-mana | Budi akan membawa tas carrier | Budi membawa tas carrier hanya ke gunung | Budi belum tentu membawa tas carrier
+\[JAWABAN\] Budi akan membawa tas carrier
+\[PEMBAHASAN\] Silogisme Disjungtif / Dilema Konstruktif (p V q; p -> r; q -> r; maka r). Apapun pilihan yang diambil, akibatnya (r) tetap sama dan pasti terjadi.
+
+===
+\[ID\] ts_13
+\[KESULITAN\] 5
+\[SOAL\] Semua ilmuwan adalah peneliti yang tekun. Tidak ada peneliti yang tekun yang suka membuang waktu. Beberapa pemuda suka membuang waktu. Kesimpulan yang tepat adalah...
+\[OPSI\] Beberapa pemuda bukan ilmuwan | Semua pemuda bukan ilmuwan | Beberapa ilmuwan adalah pemuda | Tidak ada pemuda yang menjadi ilmuwan
+\[JAWABAN\] Beberapa pemuda bukan ilmuwan
+\[PEMBAHASAN\] Silogisme kategorial kompleks bersarang (A dalam B; B berpotongan kosong dengan C; sebagian D ada dalam C). Maka, sebagian D (pemuda) yang ada dalam C pasti tidak menyentuh A (ilmuwan).
+
+===
+\[ID\] ts_14
+\[KESULITAN\] 5
+\[SOAL\] Jika suhu udara di bawah nol derajat Celcius dan tekanan udara stabil, maka air akan membeku. Saat ini air tidak membeku dan suhu udara diketahui di bawah nol derajat Celcius. Kesimpulan yang pasti adalah...
+\[OPSI\] Tekanan udara stabil | Tekanan udara tidak stabil | Suhu udara akan segera naik | Air terkontaminasi zat lain
+\[JAWABAN\] Tekanan udara tidak stabil
+\[PEMBAHASAN\] ~(p DAN q) = ~p ATAU ~q. Karena diketahui air tidak membeku (~r), maka (~p ATAU ~q) benar. Diketahui p (suhu di bawah nol) benar, sehingga ~p salah. Agar disjungsi tetap bernilai benar, ~q (tekanan udara tidak stabil) harus benar.
+
+===
+\[ID\] ts_15
+\[KESULITAN\] 5
+\[SOAL\] Jika pelamar menguasai bahasa asing, ia lolos seleksi berkas. Jika lolos seleksi berkas, ia diundang wawancara. Jika diundang wawancara, ia wajib menyiapkan presentasi. Tono tidak wajib menyiapkan presentasi. Kesimpulan yang sah adalah...
+\[OPSI\] Tono diundang wawancara | Tono lolos seleksi berkas tetapi tidak wawancara | Tono tidak menguasai bahasa asing | Tono menguasai bahasa asing
+\[JAWABAN\] Tono tidak menguasai bahasa asing
+\[PEMBAHASAN\] Rantai implikasi 4 tingkat deduktif murni (A -> B, B -> C, C -> D). Karena D batal (~D), efek domino Modus Tollens berlaku mundur ke belakang menghasilkan kesimpulan ~A.

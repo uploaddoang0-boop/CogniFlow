@@ -1,0 +1,105 @@
+===
+[ID] td_01
+[KESULITAN] 1
+[SOAL] 2, 4, 6, 8, ...
+[OPSI] 9 | 10 | 11 | 12
+[JAWABAN] 10
+[PEMBAHASAN] Pola aritmatika dasar dengan penambahan konstan +2 pada setiap suku. Nilai selanjutnya adalah 8 + 2 = 10.
+
+[ID] td_02
+[KESULITAN] 1
+[SOAL] 50, 45, 40, 35, ...
+[OPSI] 20 | 25 | 30 | 31
+[JAWABAN] 30
+[PEMBAHASAN] Pola aritmatika dasar dengan pengurangan konstan -5 pada setiap suku. Nilai selanjutnya adalah 35 - 5 = 30.
+
+[ID] td_03
+[KESULITAN] 2
+[SOAL] 3, 9, 27, 81, ...
+[OPSI] 162 | 240 | 243 | 253
+[JAWABAN] 243
+[PEMBAHASAN] Pola geometri dasar dengan perkalian konstan x3 pada setiap suku. Nilai selanjutnya adalah 81 x 3 = 243.
+
+[ID] td_04
+[KESULITAN] 2
+[SOAL] 10, 12, 9, 11, 8, ...
+[OPSI] 7 | 9 | 10 | 11
+[JAWABAN] 10
+[PEMBAHASAN] Pola operasi 1 tingkat yang bergantian antara penambahan dan pengurangan (+2, -3, +2, -3). Nilai selanjutnya adalah 8 + 2 = 10.
+
+[ID] td_05
+[KESULITAN] 3
+[SOAL] 1, 2, 3, 4, 5, 8, 7, ...
+[OPSI] 9 | 10 | 14 | 16
+[JAWABAN] 16
+[PEMBAHASAN] Terdapat dua deret melompat. Posisi ganjil (1,3,5,7) memiliki pola +2. Posisi genap (2,4,8,...) memiliki pola x2. Suku ke-8 adalah kelanjutan posisi genap: 8 x 2 = 16.
+
+[ID] td_06
+[KESULITAN] 3
+[SOAL] 2, 5, 10, 17, 26, ...
+[OPSI] 35 | 36 | 37 | 39
+[JAWABAN] 37
+[PEMBAHASAN] Deret bertingkat. Selisih antar suku membentuk deret bilangan ganjil berurutan (+3, +5, +7, +9). Selisih berikutnya adalah +11, sehingga 26 + 11 = 37.
+
+[ID] td_07
+[KESULITAN] 3
+[SOAL] 2, 5, 11, 23, 47, ...
+[OPSI] 84 | 94 | 95 | 96
+[JAWABAN] 95
+[PEMBAHASAN] Pola kombinasi aritmatika-geometri, setiap suku dikalikan 2 lalu ditambah 1 (x2 + 1). Nilai selanjutnya adalah (47 x 2) + 1 = 95.
+
+[ID] td_08
+[KESULITAN] 4
+[SOAL] 3, 4, 7, 11, 18, 29, ...
+[OPSI] 37 | 46 | 47 | 57
+[JAWABAN] 47
+[PEMBAHASAN] Deret Fibonacci, angka berikutnya adalah hasil penjumlahan dari dua angka tepat sebelumnya. Suku berikutnya: 18 + 29 = 47.
+
+[ID] td_09
+[KESULITAN] 4
+[SOAL] 1, 2, 3, 6, 11, 20, ...
+[OPSI] 31 | 37 | 38 | 41
+[JAWABAN] 37
+[PEMBAHASAN] Variasi deret Tribonacci, setiap suku adalah hasil penjumlahan dari tiga suku sebelumnya secara berurutan. Suku berikutnya: 6 + 11 + 20 = 37.
+
+[ID] td_10
+[KESULITAN] 4
+[SOAL] 100, 3, 50, 9, 25, 27, 12.5, ...
+[OPSI] 6.25 | 54 | 81 | 108
+[JAWABAN] 81
+[PEMBAHASAN] Pola melompat berganda dengan rasio beda. Posisi ganjil dibagi 2 (:2), posisi genap dikali 3 (x3). Suku ke-8 adalah kelanjutan genap (setelah 27): 27 x 3 = 81.
+
+[ID] td_11
+[KESULITAN] 4
+[SOAL] 4, 9, 25, 49, ...
+[OPSI] 64 | 81 | 100 | 121
+[JAWABAN] 121
+[PEMBAHASAN] Pola bilangan berpangkat bersarang murni. Deret merupakan hasil kuadrat dari deret bilangan prima berurutan (2², 3², 5², 7²). Bilangan prima berikutnya adalah 11, maka 11² = 121.
+
+[ID] td_12
+[KESULITAN] 5
+[SOAL] 77, 49, 36, 18, ...
+[OPSI] 8 | 9 | 10 | 12
+[JAWABAN] 8
+[PEMBAHASAN] Pola logika internal. Setiap angka dihasilkan dari operasi perkalian antar digit angka sebelumnya (7x7=49, 4x9=36, 3x6=18). Suku berikutnya adalah 1 x 8 = 8.
+
+[ID] td_13
+[KESULITAN] 5
+[SOAL] 2, 3, 4, 6, 9, 14, 22, ...
+[OPSI] 34 | 35 | 36 | 37
+[JAWABAN] 35
+[PEMBAHASAN] Modifikasi kompleks Fibonacci. Setiap suku didapat dari menjumlahkan dua suku sebelumnya lalu dikurangi konstanta 1 ((a+b)-1). Suku berikutnya: (14 + 22) - 1 = 35.
+
+[ID] td_14
+[KESULITAN] 5
+[SOAL] 1, 4, 27, 256, ...
+[OPSI] 1024 | 1250 | 3125 | 4096
+[JAWABAN] 3125
+[PEMBAHASAN] Pola eksponensial bersarang di mana basis dan pangkat adalah angka berurutan n^n (1¹, 2², 3³, 4⁴). Suku kelima adalah 5⁵ = 3125.
+
+[ID] td_15
+[KESULITAN] 5
+[SOAL] 2, 1, 1.5, 3.75, 13.125, ...
+[OPSI] 48.125 | 52.5 | 59.0625 | 65.5
+[JAWABAN] 59.0625
+[PEMBAHASAN] Pola perkalian bertingkat dinamis. Pengali bertambah konstan +1 (x0.5, x1.5, x2.5, x3.5). Suku berikutnya dikali 4.5, sehingga 13.125 x 4.5 = 59.0625.
