@@ -18,7 +18,7 @@ class CogniFlowEngine {
         this.loadLocalStorage(); 
         this.updateDashboardUI(); 
         this.attachEventListeners(); 
-        console.log("CogniFlow Engine v2.0 [TXT Database Parser] Ready.");
+        console.log("CogniFlow Engine v2.1 [Anti-Crash Mode] Ready.");
     }
 
     loadLocalStorage() { const saved = localStorage.getItem('cogniflow_stats'); if (saved) { this.userStats = JSON.parse(saved); } else { this.saveLocalStorage(); } }
@@ -74,9 +74,15 @@ class CogniFlowEngine {
     startSession(mode, subType = null) {
         this.state.mode = mode; this.state.subType = subType;
         
-        // Membaca dari memori global yang di-injeksi oleh TXT Parser
-        this.state.questionPool = window.globalQuestionDatabase.filter(q => q.pool === mode && (!subType || q.type === subType));
-        if(this.state.questionPool.length === 0) return alert(`Sistem: Bank soal belum tersedia untuk modul ini. Pastikan file TXT tidak kosong.`);
+        // PENCEGAHAN ERROR: Jika TXT gagal dimuat, gunakan data cadangan
+        let db = window.globalQuestionDatabase || [];
+        if (db.length === 0) {
+            alert("⚠️ Sesi dialihkan ke SAFE MODE.\n\nSistem gagal membaca file .txt (mungkin karena Anda membuka file secara luring tanpa Live Server/GitHub, atau salah format). Menggunakan Data Cadangan.");
+            db = getSafeModeData();
+        }
+
+        this.state.questionPool = db.filter(q => q.pool === mode && (!subType || q.type === subType));
+        if(this.state.questionPool.length === 0) return alert(`Sistem: Bank soal belum tersedia untuk modul ini di file TXT Anda.`);
         
         this.state.usedQuestionIds.clear(); this.state.questionsAnswered = 0; this.state.correctAnswers = 0;
         this.state.targetDifficulty = 2; this.state.maxQuestions = (mode === 'assessment') ? 5 : 3; 
@@ -185,21 +191,16 @@ async function buildDatabaseFromTXT() {
     for (const file of files) {
         try {
             const response = await fetch(file);
-            if (!response.ok) {
-                console.warn(`[CogniFlow Parser] File ${file} tidak ditemukan atau gagal dimuat.`);
-                continue;
-            }
-            const textContent = await response.text();
+            if (!response.ok) continue;
             
-            // Pisahkan berdasarkan delimiter '==='
+            const textContent = await response.text();
             const blocks = textContent.split('===');
             
             for (const block of blocks) {
-                if (block.trim().length === 0) continue; // Lewati blok kosong
+                if (block.trim().length === 0) continue; 
                 
-                // Fungsi Helper Ekstraksi RegEx
                 const extractField = (fieldName) => {
-                    const regex = new RegExp(`\\[${fieldName}\\]\\s*(.*)`);
+                    const regex = new RegExp(`\\[${fieldName}\\]\\s*(.*)`, 'i');
                     const match = block.match(regex);
                     return match ? match[1].trim() : '';
                 };
@@ -207,27 +208,21 @@ async function buildDatabaseFromTXT() {
                 const type = extractField('TIPE').toLowerCase();
                 const contentStr = extractField('KONTEN');
                 
-                // Logika Parsing Tipe Spesifik
                 let parsedContent = {};
                 if (type === 'series') {
-                    // Pecah koma jadi array angka/tanda tanya
                     parsedContent.sequence = contentStr.split(',').map(s => s.trim());
                 } else if (type === 'syllogism') {
-                    // Pecah berdasarkan titik atau baris baru
                     parsedContent.premises = contentStr.split(/(?:\r?\n|\. )/)
                         .map(s => s.trim().replace(/\.$/, ''))
                         .filter(s => s.length > 0);
                 }
 
-                // Ambil & bersihkan Opsi Jawaban
                 const optionsRaw = extractField('OPSI');
                 const options = optionsRaw.split('|').map(s => s.trim());
-                
                 const hint = extractField('PETUNJUK');
 
-                // Rakit Objek (Meniru data.js lama)
                 const questionObj = {
-                    id: extractField('ID'),
+                    id: extractField('ID') || Math.random().toString(),
                     type: type,
                     pool: extractField('POOL').toLowerCase(),
                     difficulty: parseInt(extractField('KESULITAN')) || 1,
@@ -237,59 +232,31 @@ async function buildDatabaseFromTXT() {
                     explanation: { text: extractField('PEMBAHASAN') }
                 };
 
-                // Validasi Data Keamanan (Cegah masuk jika data korup)
-                if (questionObj.id && questionObj.content.options.length > 1) {
+                if (questionObj.type && questionObj.content.options.length > 1) {
                     window.globalQuestionDatabase.push(questionObj);
                 }
             }
         } catch (error) {
-            console.error(`[CogniFlow Parser Error] Gagal membedah ${file}:`, error);
+            console.error(`Gagal membedah ${file}`);
         }
     }
 }
 
+// DATA CADANGAN JIKA TXT GAGAL
+function getSafeModeData() {
+    return [
+        { id: "safe_1", pool: "assessment", type: "series", difficulty: 2, content: { sequence: ["Data", "Cadangan", "Aktif", "?"], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", hints: [], explanation: { text: "Anda melihat ini karena file TXT gagal dimuat." } },
+        { id: "safe_2", pool: "practice", type: "series", difficulty: 2, content: { sequence: ["Data", "Cadangan", "Aktif", "?"], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", hints: [], explanation: { text: "Anda melihat ini karena file TXT gagal dimuat." } },
+        { id: "safe_3", pool: "practice", type: "syllogism", difficulty: 2, content: { premises: ["Ini adalah mode aman.", "Sistem gagal memuat TXT."], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", hints: [], explanation: { text: "Pastikan Anda tidak typo di file TXT." } }
+    ];
+}
+
 // BOOTSTRAP APLIKASI
-// Jalankan Parser asinkronus DULU, setelah selesai baru nyalakan mesin CogniFlow.
 document.addEventListener('DOMContentLoaded', async () => {
-    // Tombol di-disable dulu saat parsing agar user tidak klik sebelum data siap
-    const startBtns = document.querySelectorAll('button[id^="btn-start"]');
-    startBtns.forEach(btn => btn.style.opacity = '0.5');
-
-    await buildDatabaseFromTXT(); // Tunggu file teks diterjemahkan
-    
-    // Nyalakan Mesin UI
+    // 1. INSTANISIASI UI MESIN TERLEBIH DAHULU AGAR TOMBOL NAVIGASI BAWAH SELALU HIDUP
     window.CogniFlow = new CogniFlowEngine();
+    window.CogniFlow.init();
     
-    // Buka kunci tombol
-    startBtns.forEach(btn => btn.style.opacity = '1');
-});
-
-// BOOTSTRAP APLIKASI (DENGAN PROTEKSI ERROR VISUAL)
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Kunci tombol sementara
-    const startBtns = document.querySelectorAll('#btn-start-daily, #btn-practice-series, #btn-practice-syllogism');
-    startBtns.forEach(btn => btn.style.opacity = '0.5');
-
-    try {
-        // 2. Jalankan Parser TXT
-        await buildDatabaseFromTXT();
-        
-        // 3. Validasi Keberhasilan Parser
-        if (window.globalQuestionDatabase.length === 0) {
-            alert("⚠️ KESALAHAN PARSER: File TXT berhasil dibaca, tetapi tidak ada soal yang valid. Periksa apakah format [TIPE], [KONTEN], dan [OPSI] sudah persis sesuai instruksi AI.");
-            return; // Hentikan eksekusi agar tidak crash
-        }
-        
-        // 4. Nyalakan Mesin UI jika data aman
-        window.CogniFlow = new CogniFlowEngine();
-        
-        // 5. Buka kunci tombol
-        startBtns.forEach(btn => {
-            btn.style.opacity = '1';
-            btn.style.cursor = 'pointer';
-        });
-
-    } catch (e) {
-        alert("⚠️ KESALAHAN JARINGAN: Gagal memuat aplikasi. Pastikan Anda tidak membuka file ini langsung dari C:/ (Gunakan Live Server atau GitHub Pages). Error: " + e.message);
-    }
+    // 2. Jalankan Parser TXT secara asinkron di belakang layar
+    await buildDatabaseFromTXT();
 });
