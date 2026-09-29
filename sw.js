@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cogniflow-cache-v3.1.0';
+const CACHE_NAME = 'cogniflow-cache-v3.3.0';
 const ASSETS = [ 
     '/', 
     '/index.html', 
