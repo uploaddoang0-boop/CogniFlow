@@ -11,7 +11,7 @@ class CogniFlowEngine {
             modal: { exit: document.getElementById('exit-modal') }
         };
 
-        this.state = { mode: null, subType: null, questionPool: [], usedQuestionIds: new Set(), currentQuestion: null, targetDifficulty: 2, questionStartTime: 0, questionsAnswered: 0, maxQuestions: 5, correctAnswers: 0, sessionTimeLeft: 900, timerInterval: null, sessionHistory: [] };
+        this.state = { mode: null, subType: null, questionPool: [], usedQuestionIds: new Set(), currentQuestion: null, targetDifficulty: 2, questionStartTime: 0, questionsAnswered: 0, maxQuestions: 15, correctAnswers: 0, sessionTimeLeft: 60, timerInterval: null, sessionHistory: [] };
         
         this.userStats = { streakDays: 0, lastPlayedDate: null, series: { correct: 0, answered: 0, time: 0 }, syllogism: { correct: 0, answered: 0, time: 0 } };
         this.audioCtx = null;
@@ -21,7 +21,7 @@ class CogniFlowEngine {
         this.loadLocalStorage(); 
         this.updateDashboardUI(); 
         this.attachEventListeners(); 
-        console.log("CogniFlow Engine v3.1 [Router Fixed] Ready.");
+        console.log("CogniFlow Engine v4.0 [Smart Parser & 60s Timer] Bersedia.");
     }
 
     loadLocalStorage() { const saved = localStorage.getItem('cogniflow_stats_v2'); if (saved) { this.userStats = JSON.parse(saved); } else { this.saveLocalStorage(); } }
@@ -91,14 +91,13 @@ class CogniFlowEngine {
                 osc.start(t); osc.stop(t + 0.4);
                 if (navigator.vibrate) navigator.vibrate(200);
             }
-        } catch(e) { console.warn("Audio/Haptic not supported or blocked"); }
+        } catch(e) { console.warn("Audio/Haptic tidak disokong"); }
     }
 
-    // --- PERBAIKAN ROUTER (BUG FIX) ---
     switchTab(tabId) {
         Object.values(this.DOM.navItems).forEach(item => item.classList.remove('active'));
         if (this.DOM.navItems[tabId]) this.DOM.navItems[tabId].classList.add('active');
-        this.navigate(tabId); // Perbaikan: menggunakan bare key
+        this.navigate(tabId); 
     }
 
     navigate(screenId) {
@@ -136,25 +135,27 @@ class CogniFlowEngine {
         
         let db = window.globalQuestionDatabase || [];
         if (db.length === 0) {
-            alert("⚠️ SAFE MODE: File TXT gagal dimuat. Menggunakan Data Cadangan.");
+            alert("⚠️ SAFE MODE: Fail TXT gagal dimuat. Menggunakan Data Sandaran.");
             db = getSafeModeData();
         }
 
         this.state.questionPool = db.filter(q => q.pool === mode && (subType === 'mix' || q.type === subType));
-        if(this.state.questionPool.length === 0) return alert(`Sistem: Bank soal belum tersedia untuk modul ini.`);
+        if(this.state.questionPool.length === 0) return alert(`Sistem: Bank soalan belum tersedia untuk modul ini.`);
         
         this.state.usedQuestionIds.clear(); this.state.questionsAnswered = 0; this.state.correctAnswers = 0;
-        this.state.targetDifficulty = 2; this.state.maxQuestions = (mode === 'assessment') ? 5 : 3; 
+        this.state.targetDifficulty = 2; 
+        this.state.maxQuestions = (mode === 'assessment') ? 10 : 5; // Jumlah soalan per sesi
         this.state.sessionHistory = []; 
         
         if (mode === 'assessment') { 
-            this.DOM.quiz.timerDisplay.textContent = '15:00';
-            this.startTimer(); 
+            this.DOM.quiz.timerDisplay.textContent = '01:00';
+            this.DOM.quiz.timerDisplay.style.color = 'var(--accent)';
         } else { 
             this.DOM.quiz.timerDisplay.textContent = '∞';
+            this.DOM.quiz.timerDisplay.style.color = 'var(--accent)';
         }
 
-        this.navigate('quiz'); // Perbaikan: menggunakan bare key
+        this.navigate('quiz'); 
         this.prepareNextQuestion();
     }
 
@@ -171,7 +172,7 @@ class CogniFlowEngine {
 
     renderQuestionData() {
         const q = this.state.currentQuestion;
-        this.DOM.quiz.levelIndicator.textContent = `Level Kesulitan: ${q.difficulty}`;
+        this.DOM.quiz.levelIndicator.textContent = `Soalan ${this.state.questionsAnswered + 1} • Tahap ${q.difficulty}`;
         this.state.questionStartTime = Date.now();
         this.DOM.quiz.explanationContainer.style.display = 'none';
 
@@ -185,9 +186,16 @@ class CogniFlowEngine {
             btn.addEventListener('click', (e) => this.handleAnswer(opt, e.target));
             this.DOM.quiz.optionsContainer.appendChild(btn);
         });
+
+        // Mulakan Pemasa 60 Saat Jika Dalam Mod Penilaian (Simulasi/Harian)
+        if (this.state.mode === 'assessment') {
+            this.startTimer();
+        }
     }
 
     handleAnswer(selectedOpt, btnElement) {
+        clearInterval(this.state.timerInterval); // Hentikan pemasa apabila dijawab
+
         const q = this.state.currentQuestion;
         const isCorrect = (selectedOpt.trim() === q.correctAnswer.trim());
         const timeTaken = (Date.now() - this.state.questionStartTime) / 1000;
@@ -222,15 +230,53 @@ class CogniFlowEngine {
     }
 
     startTimer() {
-        clearInterval(this.state.timerInterval); this.state.sessionTimeLeft = 900;
+        clearInterval(this.state.timerInterval); 
+        this.state.sessionTimeLeft = 60; // 60 Saat setiap soalan
+        this.updateTimerUI();
+        
         this.state.timerInterval = setInterval(() => {
             this.state.sessionTimeLeft--; 
-            const m = Math.floor(this.state.sessionTimeLeft / 60).toString().padStart(2, '0');
-            const s = (this.state.sessionTimeLeft % 60).toString().padStart(2, '0');
-            this.DOM.quiz.timerDisplay.textContent = `${m}:${s}`;
-            this.DOM.quiz.timerDisplay.style.color = this.state.sessionTimeLeft < 60 ? 'var(--error)' : 'var(--accent)';
-            if (this.state.sessionTimeLeft <= 0) { clearInterval(this.state.timerInterval); this.endSession(); }
+            this.updateTimerUI();
+            
+            if (this.state.sessionTimeLeft <= 0) { 
+                clearInterval(this.state.timerInterval); 
+                this.handleTimeout(); 
+            }
         }, 1000);
+    }
+
+    updateTimerUI() {
+        const m = Math.floor(this.state.sessionTimeLeft / 60).toString().padStart(2, '0');
+        const s = (this.state.sessionTimeLeft % 60).toString().padStart(2, '0');
+        this.DOM.quiz.timerDisplay.textContent = `${m}:${s}`;
+        
+        if (this.state.sessionTimeLeft <= 10) {
+            this.DOM.quiz.timerDisplay.style.color = 'var(--error)';
+        } else {
+            this.DOM.quiz.timerDisplay.style.color = 'var(--accent)';
+        }
+    }
+
+    handleTimeout() {
+        const q = this.state.currentQuestion;
+        this.playFeedback(false); 
+
+        const allBtns = this.DOM.quiz.optionsContainer.querySelectorAll('button');
+        allBtns.forEach(btn => btn.disabled = true);
+        
+        this.DOM.quiz.timerDisplay.textContent = "TAMAT";
+
+        this.state.questionsAnswered++;
+        const typeStat = q.type === 'series' ? this.userStats.series : this.userStats.syllogism;
+        typeStat.answered++;
+        typeStat.time += 60; 
+
+        if (this.state.mode === 'assessment') {
+            this.state.sessionHistory.push({ questionType: q.type, content: q.content, selected: "WAKTU TAMAT", isCorrect: false, correctAns: q.correctAnswer, exp: q.explanation.text });
+            this.state.targetDifficulty = Math.max(this.state.targetDifficulty - 1, 1); // Kurangkan tahap kesukaran
+            
+            setTimeout(() => this.prepareNextQuestion(), 1000); // Jeda 1 saat sebelum beralih
+        }
     }
 
     endSession() {
@@ -241,15 +287,15 @@ class CogniFlowEngine {
         this.DOM.result.summary.innerHTML = `
             <div style="font-size: 2rem; color: ${sessionAccuracy >= 75 ? 'var(--success)' : 'var(--error)'}; margin-bottom: 10px;">${sessionAccuracy}%</div>
             Akurasi Kognitif Sesi Ini<br><br>
-            <span style="font-size: 0.9rem; color: var(--text-muted);">Benar ${this.state.correctAnswers} dari total ${this.state.questionsAnswered} soal.</span>
+            <span style="font-size: 0.9rem; color: var(--text-muted);">Benar ${this.state.correctAnswers} daripada ${this.state.questionsAnswered} soalan.</span>
         `;
         
         if (this.state.mode === 'assessment' && this.state.sessionHistory.length > 0) {
             this.DOM.result.reviewContainer.style.display = 'block';
             this.DOM.result.reviewList.innerHTML = this.state.sessionHistory.map((h, i) => `
                 <div class="review-item" style="border-left: 3px solid ${h.isCorrect ? 'var(--success)' : 'var(--error)'};">
-                    <h5>Soal ${i + 1} (${h.questionType === 'series' ? 'Deret' : 'Silogisme'})</h5>
-                    <p style="font-size:0.85rem; margin-bottom: 8px;">Jawaban Anda: <strong>${h.selected}</strong> ${h.isCorrect ? '✅' : '❌ (Kunci: ' + h.correctAns + ')'}</p>
+                    <h5>Soalan ${i + 1} (${h.questionType === 'series' ? 'Deret' : 'Silogisme'})</h5>
+                    <p style="font-size:0.85rem; margin-bottom: 8px;">Jawapan Anda: <strong>${h.selected}</strong> ${h.isCorrect ? '✅' : '❌ (Kunci: ' + h.correctAns + ')'}</p>
                     <div class="exp">Pembahasan: ${h.exp}</div>
                 </div>
             `).join('');
@@ -257,10 +303,13 @@ class CogniFlowEngine {
             this.DOM.result.reviewContainer.style.display = 'none';
         }
 
-        this.navigate('result'); // Perbaikan: menggunakan bare key
+        this.navigate('result'); 
     }
 }
 
+/* =========================================================
+   ASYNCHRONOUS 4-TXT PARSER ENGINE (SMART PARSER)
+   ========================================================= */
 async function buildDatabaseFromTXT() {
     window.globalQuestionDatabase = [];
     const dbConfigs = [
@@ -280,7 +329,12 @@ async function buildDatabaseFromTXT() {
 
     results.forEach(({ config, text }) => {
         if (!text) return;
-        const blocks = text.split('===');
+        
+        // 1. Bersihkan sebarang sengkang ke belakang (backslash) yang menghalang sistem membaca tag.
+        let cleanText = text.replace(/\\\[/g, '[').replace(/\\\]/g, ']');
+        
+        // 2. Pemisahan Bijak: Pisahkan teks setiap kali terjumpa tag [ID] (Mengabaikan ketiadaan ===).
+        const blocks = cleanText.split(/(?=\[ID\])/i);
         
         for (const block of blocks) {
             if (block.trim().length === 0) continue; 
@@ -292,6 +346,8 @@ async function buildDatabaseFromTXT() {
             };
 
             const contentStr = extractField('SOAL');
+            if(!contentStr) continue; // Langkau jika tidak jumpa teks soalan
+
             let parsedContent = {};
             if (config.type === 'series') {
                 parsedContent.sequence = contentStr.split(',').map(s => s.trim());
@@ -321,8 +377,8 @@ async function buildDatabaseFromTXT() {
 
 function getSafeModeData() {
     return [
-        { id: "safe_1", pool: "assessment", type: "series", difficulty: 2, content: { sequence: ["Data", "Cadangan", "Aktif", "?"], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", explanation: { text: "Anda melihat ini karena file TXT gagal dimuat." } },
-        { id: "safe_2", pool: "practice", type: "syllogism", difficulty: 2, content: { premises: ["Mode aman aktif.", "TXT diblokir peramban lokal."], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", explanation: { text: "Pastikan nama file TXT Anda sudah sesuai (test_deret.txt, dll)." } }
+        { id: "safe_1", pool: "assessment", type: "series", difficulty: 2, content: { sequence: ["Data", "Sandaran", "Aktif", "?"], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", explanation: { text: "Anda melihat ini kerana fail TXT gagal dimuat turun." } },
+        { id: "safe_2", pool: "practice", type: "syllogism", difficulty: 2, content: { premises: ["Mod selamat aktif.", "TXT disekat oleh pelayar tempatan."], options: ["Oke", "Paham", "Gagal", "Error"] }, correctAnswer: "Oke", explanation: { text: "Gunakan Live Server untuk memuat fail TXT." } }
     ];
 }
 
