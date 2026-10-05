@@ -1,0 +1,16 @@
+{
+  "name": "CogniFlow Assessment",
+  "short_name": "CogniFlow",
+  "description": "Mesin Pelatih Logika Kognitif Adaptif",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0A0E17",
+  "theme_color": "#0A0E17",
+  "icons": [
+    {
+      "src": "CogniFlow.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}
